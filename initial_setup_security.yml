@@ -30,7 +30,6 @@
           - libopenscap8
           - wget
           - unzip
-          - oscap-utils
         state: present
 
     - name: Download SCAP Security Guide
