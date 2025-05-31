@@ -28,8 +28,6 @@
       apt:
         name:
           - libopenscap8
-          - ssg-applications
-          - ssg-debderived
           - wget
           - unzip
           - oscap-utils
