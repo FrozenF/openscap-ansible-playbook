@@ -19,39 +19,10 @@
         - "{{ work_directory }}"
         - "{{ results_directory }}"
 
-    - name: Backup current sources.list
-      copy:
-        src: /etc/apt/sources.list
-        dest: /etc/apt/sources.list.backup
-        remote_src: yes
-        backup: yes
-
-    - name: Update sources.list to use security repository
-      replace:
-        path: /etc/apt/sources.list
-        regexp: 'deb http://archive.ubuntu.com/ubuntu/ jammy main'
-        replace: 'deb http://security.ubuntu.com/ubuntu/ jammy-security main'
-
-    - name: Add security repositories
-      apt_repository:
-        repo: "{{ item }}"
-        state: present
-        update_cache: no
-      loop:
-        - "deb http://security.ubuntu.com/ubuntu/ jammy-security main restricted"
-        - "deb http://security.ubuntu.com/ubuntu/ jammy-security universe"
-        - "deb http://security.ubuntu.com/ubuntu/ jammy-security multiverse"
-
     - name: Update package cache
       apt:
         update_cache: yes
         cache_valid_time: 3600
-
-    - name: Upgrade system packages from security repository
-      apt:
-        upgrade: safe
-        autoremove: yes
-        autoclean: yes
 
     - name: Install required packages
       apt:
@@ -257,14 +228,7 @@
           5. ./run_remediation.sh              # Generate remediation
           
           Results will be saved in: {{ results_directory }}/
-
-    - name: Restore original sources.list (optional)
-      copy:
-        src: /etc/apt/sources.list.backup
-        dest: /etc/apt/sources.list
-        remote_src: yes
-      when: restore_sources_list | default(false) | bool
-      tags: restore
+          
 
   handlers:
     - name: update apt cache
