@@ -90,7 +90,7 @@
         msg: "Using profile: {{ profile_id }}"
 
     - name: Create evaluation script
-      template:
+      copy:
         dest: "{{ work_directory }}/run_evaluation.sh"
         mode: '0755'
         content: |
@@ -126,7 +126,7 @@
           exit $EVAL_EXIT_CODE
 
     - name: Create remediation script
-      template:
+      copy:
         dest: "{{ work_directory }}/run_remediation.sh"
         mode: '0755'
         content: |
@@ -173,7 +173,7 @@
           fi
 
     - name: Create info script
-      template:
+      copy:
         dest: "{{ work_directory }}/show_info.sh"
         mode: '0755'
         content: |
