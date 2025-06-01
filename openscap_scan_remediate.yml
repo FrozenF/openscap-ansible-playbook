@@ -16,6 +16,7 @@
     - name: Run evaluation script
       shell: bash /opt/openscap/run_evaluation.sh
       register: eval_output
+      ignore_errors: true
       changed_when: false
 
     - name: Extract ARF path from evaluation output
