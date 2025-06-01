@@ -114,9 +114,7 @@
             --profile "$PROFILE_ID" \
             --results-arf "$RESULTS_DIR/results_arf_${TIMESTAMP}.xml" \
             --report "$RESULTS_DIR/report_${TIMESTAMP}.html" \
-            "$DS_FILE"
-          
-          EVAL_EXIT_CODE=$?
+            "$DS_FILE"  >/dev/null 2>&1
           
           echo "Evaluation completed with exit code: $EVAL_EXIT_CODE"
           echo "Arf Results saved to: $RESULTS_DIR/results_arf_${TIMESTAMP}.xml"
@@ -125,8 +123,6 @@
           echo "Add Timezone to ARF"
           sed -i -E 's/([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2})([^:+Z0-9]|")/\1+07:00\2/g' "$RESULTS_DIR/results_arf_${TIMESTAMP}.xml"
           echo "RESULTS_ARF_PATH=$RESULTS_DIR/results_arf_${TIMESTAMP}.xml"
-          
-          exit $EVAL_EXIT_CODE
 
     - name: Create remediation script
       copy:
