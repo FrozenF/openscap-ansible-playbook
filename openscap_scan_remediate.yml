@@ -24,14 +24,9 @@
         arf_result_path: "{{ eval_output.stdout | regex_search('RESULTS_ARF_PATH=(.*)', '\\1') }}"
       when: eval_output.stdout is defined
 
-    - name: Upload ARF result and hostname to remote server
-      uri:
-        url: "{{ upload_url }}"
-        method: POST
-        body_format: form-multipart
-        return_content: yes
-        status_code: 200
-        body:
-          target: "{{ ansible_hostname }}"
-          report: "{{ lookup('file', arf_result_path) }}"
+    - name: Upload ARF result via curl
+      shell: |
+        curl -X POST {{ upload_url }} \
+          -F "target={{ ansible_hostname }}" \
+          -F "report=@{{ arf_result_path }}"
       when: arf_result_path is defined
