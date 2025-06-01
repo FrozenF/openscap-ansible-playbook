@@ -21,7 +21,7 @@
 
     - name: Extract ARF path from evaluation output
       set_fact:
-        arf_result_path: "{{ eval_output.stdout | regex_search('RESULTS_ARF_PATH=(.*)', '\\1') }}"
+        arf_result_path: "{{ eval_output.stdout | regex_search('RESULTS_ARF_PATH=(.*)', '\\1') | trim }}"
       when: eval_output.stdout is defined
 
     - name: Upload ARF result via curl
