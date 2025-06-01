@@ -121,6 +121,10 @@
           echo "Evaluation completed with exit code: $EVAL_EXIT_CODE"
           echo "Arf Results saved to: $RESULTS_DIR/results_arf_${TIMESTAMP}.xml"
           echo "Report saved to: $RESULTS_DIR/report_${TIMESTAMP}.html"
+
+          echo "Add Timezone to ARF"
+          sed -i -E 's/([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2})([^:+Z0-9]|")/\1+07:00\2/g' "$RESULTS_DIR/results_arf_${TIMESTAMP}.xml"
+          echo "RESULTS_ARF_PATH=$RESULTS_DIR/results_arf_${TIMESTAMP}.xml"
           
           exit $EVAL_EXIT_CODE
 
@@ -151,25 +155,8 @@
             --output "$RESULTS_DIR/remediation_${TIMESTAMP}.sh" \
             "$DS_FILE"
           
-          if [ $? -eq 0 ]; then
-            echo "Remediation script generated: $RESULTS_DIR/remediation_${TIMESTAMP}.sh"
-            echo ""
-            echo "IMPORTANT: Review the remediation script before executing!"
-            echo "To apply remediation, run:"
-            echo "  sudo bash $RESULTS_DIR/remediation_${TIMESTAMP}.sh"
-            echo ""
-            echo "Or use oscap xccdf eval with --remediate flag:"
-            echo ""
-            echo "  sudo oscap xccdf eval \\"
-            echo "    --profile \"$PROFILE_ID\" \\"
-            echo "    --results-arf \"$RESULTS_DIR/remediation_results_arf_${TIMESTAMP}.xml\" \\"
-            echo "    --report \"$RESULTS_DIR/remediation_report_${TIMESTAMP}.html\" \\"
-            echo "    --remediate \\"
-            echo "    \"$DS_FILE\""
-          else
-            echo "Failed to generate remediation script"
-            exit 1
-          fi
+          echo "Starting Remediation"
+          sudo bash $RESULTS_DIR/remediation_${TIMESTAMP}.sh
 
     - name: Create info script
       copy:
