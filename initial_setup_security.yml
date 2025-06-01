@@ -112,15 +112,14 @@
           # Run evaluation
           oscap xccdf eval \
             --profile "$PROFILE_ID" \
-            --results "$RESULTS_DIR/results_${TIMESTAMP}.xml" \
+            --results-arf "$RESULTS_DIR/results_arf_${TIMESTAMP}.xml" \
             --report "$RESULTS_DIR/report_${TIMESTAMP}.html" \
-            --oval-results \
             "$DS_FILE"
           
           EVAL_EXIT_CODE=$?
           
           echo "Evaluation completed with exit code: $EVAL_EXIT_CODE"
-          echo "Results saved to: $RESULTS_DIR/results_${TIMESTAMP}.xml"
+          echo "Arf Results saved to: $RESULTS_DIR/results_arf_${TIMESTAMP}.xml"
           echo "Report saved to: $RESULTS_DIR/report_${TIMESTAMP}.html"
           
           exit $EVAL_EXIT_CODE
@@ -163,7 +162,7 @@
             echo ""
             echo "  sudo oscap xccdf eval \\"
             echo "    --profile \"$PROFILE_ID\" \\"
-            echo "    --results \"$RESULTS_DIR/remediation_results_${TIMESTAMP}.xml\" \\"
+            echo "    --results-arf \"$RESULTS_DIR/remediation_results_arf_${TIMESTAMP}.xml\" \\"
             echo "    --report \"$RESULTS_DIR/remediation_report_${TIMESTAMP}.html\" \\"
             echo "    --remediate \\"
             echo "    \"$DS_FILE\""
