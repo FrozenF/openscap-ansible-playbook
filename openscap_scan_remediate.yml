@@ -28,5 +28,5 @@
       shell: |
         curl -X POST {{ upload_url }} \
           -F "target={{ ansible_hostname }}" \
-          -F "report=@{{ arf_result_path }}"
+          -F "report=@{{ arf_result_path.0 }}"
       when: arf_result_path is defined
